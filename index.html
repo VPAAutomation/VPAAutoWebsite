@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>VPA Automation — Chế tạo máy & giải pháp tự động hóa</title>
+<meta name="description" content="VPA Automation chuyên thiết kế, chế tạo máy tự động hóa theo yêu cầu và cung cấp dịch vụ kỹ thuật, bảo trì cho doanh nghiệp sản xuất tại Việt Nam." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --ink:#0E1C2B;
+    --ink-2:#15263A;
+    --paper:#F4F5F2;
+    --white:#FFFFFF;
+    --steel:#5C6B7A;
+    --line:rgba(14,28,43,.12);
+    --line-strong:rgba(14,28,43,.22);
+    --accent:#E0852B;
+    --accent-deep:#B8651A;
+    --blueprint:rgba(37,99,160,.10);
+    --maxw:1180px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+  body{
+    font-family:"Inter",system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+
+  .mono{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+  .display{font-family:"Archivo",sans-serif;font-weight:900;line-height:1.02;letter-spacing:-.02em}
+
+  /* ---------- NAV ---------- */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(244,245,242,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:"Archivo";font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+  .brand .dot{width:11px;height:11px;background:var(--accent);transform:rotate(45deg)}
+  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-links a{font-size:.92rem;font-weight:500;color:var(--ink-2);transition:color .2s}
+  .nav-links a:hover{color:var(--accent-deep)}
+  .nav-cta{font-family:"Inter";font-weight:600;font-size:.9rem;background:var(--ink);color:var(--paper);padding:10px 20px;border-radius:2px;transition:background .2s}
+  .nav-cta:hover{background:var(--accent-deep)}
+  .burger{display:none;background:none;border:0;cursor:pointer;padding:6px;flex-direction:column;gap:5px}
+  .burger span{width:24px;height:2px;background:var(--ink);display:block;transition:.25s}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;overflow:hidden;padding:96px 0 86px;
+    background:
+      linear-gradient(var(--blueprint) 1px,transparent 1px) 0 0/40px 40px,
+      linear-gradient(90deg,var(--blueprint) 1px,transparent 1px) 0 0/40px 40px,
+      var(--paper);
+  }
+  .hero::after{content:"";position:absolute;right:-120px;top:-120px;width:380px;height:380px;background:var(--ink);opacity:.04;transform:rotate(45deg)}
+  .hero .specs{display:flex;flex-wrap:wrap;gap:8px 26px;margin-bottom:26px}
+  .hero .specs span{position:relative;padding-left:16px}
+  .hero .specs span::before{content:"";position:absolute;left:0;top:50%;width:7px;height:7px;background:var(--accent);transform:translateY(-50%) rotate(45deg)}
+  .hero h1{font-size:clamp(2.6rem,6.4vw,5rem);max-width:15ch;margin-bottom:26px}
+  .hero h1 em{font-style:normal;color:var(--accent-deep)}
+  .hero p.lead{font-size:1.18rem;color:var(--ink-2);max-width:54ch;margin-bottom:38px}
+  .btn-row{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{font-family:"Inter";font-weight:600;font-size:.98rem;padding:15px 30px;border-radius:2px;transition:.2s;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:9px}
+  .btn-primary{background:var(--accent);color:#1a1205}
+  .btn-primary:hover{background:var(--accent-deep);color:#fff;transform:translateY(-2px)}
+  .btn-ghost{background:transparent;border-color:var(--line-strong);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+
+  /* ---------- SECTION SHELL ---------- */
+  section.block{padding:88px 0;border-top:1px solid var(--line)}
+  .eyebrow{display:inline-block;margin-bottom:18px}
+  .section-head{max-width:60ch;margin-bottom:54px}
+  .section-head h2{font-family:"Archivo";font-weight:800;font-size:clamp(1.9rem,4vw,2.7rem);letter-spacing:-.02em;line-height:1.08;margin-bottom:16px}
+  .section-head p{color:var(--steel);font-size:1.08rem}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:start}
+  .about-grid p{color:var(--ink-2);margin-bottom:18px;font-size:1.05rem}
+  .about-list{border-top:1px solid var(--line)}
+  .about-list div{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .about-list .k{font-family:"Space Mono";font-size:.78rem;color:var(--accent-deep);min-width:46px;padding-top:3px}
+  .about-list .v strong{display:block;font-family:"Archivo";font-weight:700;margin-bottom:2px}
+  .about-list .v span{color:var(--steel);font-size:.95rem}
+
+  /* ---------- SERVICES ---------- */
+  .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .svc{background:var(--paper);padding:38px 34px;transition:background .25s}
+  .svc:hover{background:var(--white)}
+  .svc .num{font-family:"Space Mono";font-size:.8rem;color:var(--accent-deep);margin-bottom:22px}
+  .svc h3{font-family:"Archivo";font-weight:700;font-size:1.3rem;margin-bottom:12px;letter-spacing:-.01em}
+  .svc p{color:var(--steel);font-size:.98rem}
+
+  /* ---------- STATS ---------- */
+  .stats{background:var(--ink);color:var(--paper);
+    background-image:
+      linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+    background-size:48px 48px;
+  }
+  .stats .section-head h2{color:var(--paper)}
+  .stats .eyebrow{color:rgba(244,245,242,.6)}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+  .stat .n{font-family:"Archivo";font-weight:900;font-size:clamp(2.6rem,5vw,3.6rem);line-height:1;letter-spacing:-.03em}
+  .stat .n em{font-style:normal;color:var(--accent)}
+  .stat .l{margin-top:10px;color:rgba(244,245,242,.62);font-size:.92rem}
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start}
+  .contact-info h2{font-family:"Archivo";font-weight:800;font-size:clamp(1.9rem,4vw,2.6rem);letter-spacing:-.02em;line-height:1.08;margin-bottom:20px}
+  .contact-info p{color:var(--steel);margin-bottom:32px;font-size:1.05rem}
+  .contact-info .row{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line);align-items:baseline}
+  .contact-info .row .mono{min-width:74px}
+  .contact-info .row a,.contact-info .row span.val{font-weight:500;color:var(--ink)}
+
+  form .field{margin-bottom:18px}
+  form label{display:block;font-family:"Space Mono";font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);margin-bottom:8px}
+  form input,form textarea{width:100%;font-family:"Inter";font-size:1rem;color:var(--ink);background:var(--white);border:1px solid var(--line-strong);border-radius:2px;padding:14px 16px;transition:border .2s}
+  form input:focus,form textarea:focus{outline:none;border-color:var(--accent)}
+  form textarea{resize:vertical;min-height:130px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  form .btn-primary{width:100%;justify-content:center;font-size:1.02rem}
+  .form-note{margin-top:14px;font-size:.84rem;color:var(--steel)}
+  .form-msg{display:none;margin-top:16px;padding:14px 16px;border-radius:2px;font-size:.95rem}
+  .form-msg.ok{display:block;background:rgba(40,140,70,.1);border:1px solid rgba(40,140,70,.4);color:#1c5e34}
+  .form-msg.err{display:block;background:rgba(190,40,40,.08);border:1px solid rgba(190,40,40,.35);color:#9a2222}
+  .hp{position:absolute;left:-9999px;opacity:0}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink-2);color:rgba(244,245,242,.7);padding:54px 0 30px}
+  .foot-top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .foot-top .brand{color:var(--paper)}
+  .foot-links{display:flex;gap:28px;flex-wrap:wrap}
+  .foot-links a{color:rgba(244,245,242,.7);font-size:.92rem;transition:color .2s}
+  .foot-links a:hover{color:var(--accent)}
+  .foot-bot{padding-top:24px;font-size:.84rem;color:rgba(244,245,242,.45)}
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .about-grid,.contact-grid{grid-template-columns:1fr;gap:40px}
+    .svc-grid{grid-template-columns:1fr}
+    .stat-grid{grid-template-columns:1fr 1fr;gap:34px}
+    .nav-links{position:fixed;inset:68px 0 auto 0;flex-direction:column;background:var(--paper);border-bottom:1px solid var(--line);padding:24px;gap:20px;align-items:flex-start;transform:translateY(-120%);transition:transform .3s;height:auto}
+    .nav-links.open{transform:none}
+    .burger{display:flex}
+    .grid-2{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand"><span class="dot"></span>VPA Automation</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#about">Giới thiệu</a>
+      <a href="#services">Dịch vụ</a>
+      <a href="#stats">Năng lực</a>
+      <a href="#contact" class="nav-cta">Liên hệ</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Mở menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="specs mono reveal">
+      <span>Chế tạo máy tự động hóa</span>
+      <span>Dịch vụ kỹ thuật &amp; bảo trì</span>
+      <span>VCI Tower · Phú Thọ</span>
+    </div>
+    <h1 class="display reveal">Máy móc <em>tự động hóa</em> chế tạo riêng cho nhà máy của bạn.</h1>
+    <p class="lead reveal">VPA Automation thiết kế và chế tạo máy tự động hóa theo yêu cầu, đồng hành cùng doanh nghiệp sản xuất từ ý tưởng, lắp đặt, vận hành đến bảo trì dài hạn.</p>
+    <div class="btn-row reveal">
+      <a href="#contact" class="btn btn-primary">Yêu cầu tư vấn →</a>
+      <a href="#services" class="btn btn-ghost">Xem dịch vụ</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="reveal">
+        <span class="eyebrow mono">01 — Về chúng tôi</span>
+        <h2 class="display" style="font-size:clamp(1.9rem,4vw,2.7rem);font-weight:800;margin-bottom:20px">Đối tác tự động hóa cho ngành sản xuất.</h2>
+        <p>VPA Automation chuyên thiết kế và chế tạo máy, dây chuyền tự động hóa theo yêu cầu riêng của từng doanh nghiệp. Chúng tôi giúp nhà máy nâng cao năng suất, ổn định chất lượng và giảm phụ thuộc vào lao động thủ công.</p>
+        <p>Khác biệt của VPA nằm ở đội ngũ kỹ sư cơ khí – điện – điều khiển làm chủ toàn bộ quy trình: từ tư vấn, thiết kế, chế tạo, tích hợp đến dịch vụ kỹ thuật và bảo trì sau bàn giao. Một đầu mối, trọn vòng đời máy.</p>
+      </div>
+      <div class="about-list reveal">
+        <div><span class="k">→ 01</span><span class="v"><strong>Thiết kế theo yêu cầu</strong><span>Giải pháp tự động hóa thiết kế riêng cho từng dây chuyền và sản phẩm.</span></span></div>
+        <div><span class="k">→ 02</span><span class="v"><strong>Chế tạo trọn gói</strong><span>Làm chủ cơ khí, điện và lập trình điều khiển trong cùng một đội ngũ.</span></span></div>
+        <div><span class="k">→ 03</span><span class="v"><strong>Tích hợp hệ thống</strong><span>Kết nối robot, PLC, cảm biến và phần mềm giám sát thành hệ thống đồng bộ.</span></span></div>
+        <div><span class="k">→ 04</span><span class="v"><strong>Dịch vụ sau bán</strong><span>Bảo trì, sửa chữa, nâng cấp và cung cấp phụ tùng nhanh chóng, kịp thời.</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SERVICES ===================== -->
+<section class="block" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow mono">02 — Dịch vụ</span>
+      <h2>Giải pháp tự động hóa toàn diện.</h2>
+      <p>Từ một máy đơn lẻ đến cả dây chuyền sản xuất — VPA Automation đồng hành ở mọi giai đoạn.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc reveal">
+        <div class="num mono">S/01</div>
+        <h3>Thiết kế &amp; chế tạo máy tự động</h3>
+        <p>Tư vấn, thiết kế cơ khí – điện và chế tạo máy tự động hóa theo yêu cầu riêng cho từng công đoạn sản xuất, đảm bảo độ chính xác và độ bền vận hành.</p>
+      </div>
+      <div class="svc reveal">
+        <div class="num mono">S/02</div>
+        <h3>Dây chuyền tự động hóa</h3>
+        <p>Xây dựng và tích hợp dây chuyền sản xuất tự động, tối ưu năng suất, ổn định chất lượng và giảm chi phí lao động thủ công cho nhà máy.</p>
+      </div>
+      <div class="svc reveal">
+        <div class="num mono">S/03</div>
+        <h3>Robot &amp; hệ điều khiển</h3>
+        <p>Tích hợp robot công nghiệp, lập trình PLC, HMI và hệ thống giám sát SCADA để vận hành chính xác, linh hoạt và dễ quản lý.</p>
+      </div>
+      <div class="svc reveal">
+        <div class="num mono">S/04</div>
+        <h3>Dịch vụ kỹ thuật &amp; bảo trì</h3>
+        <p>Lắp đặt, bảo trì định kỳ, sửa chữa, nâng cấp và cung cấp phụ tùng cho thiết bị tự động hóa — giữ dây chuyền của bạn luôn vận hành ổn định.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STATS ===================== -->
+<!-- LƯU Ý: hãy thay 4 con số dưới đây bằng số liệu thực tế của VPA Automation -->
+<section class="block stats" id="stats">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow mono">03 — Năng lực</span>
+      <h2>Những con số nói lên năng lực.</h2>
+    </div>
+    <div class="stat-grid">
+      <div class="stat reveal"><div class="n display">10<em>+</em></div><div class="l">Năm kinh nghiệm</div></div>
+      <div class="stat reveal"><div class="n display">200<em>+</em></div><div class="l">Máy &amp; dự án bàn giao</div></div>
+      <div class="stat reveal"><div class="n display">80<em>+</em></div><div class="l">Khách hàng doanh nghiệp</div></div>
+      <div class="stat reveal"><div class="n display">30<em>+</em></div><div class="l">Kỹ sư &amp; kỹ thuật viên</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="block" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <span class="eyebrow mono">04 — Liên hệ</span>
+        <h2>Bắt đầu dự án tự động hóa.</h2>
+        <p>Gửi yêu cầu của bạn — đội ngũ kỹ thuật VPA Automation sẽ phản hồi trong vòng 24 giờ làm việc.</p>
+        <div class="row"><span class="mono">Điện thoại</span><span class="val">[Số điện thoại]</span></div>
+        <div class="row"><span class="mono">Email</span><a href="mailto:sales@vpaauto.com">sales@vpaauto.com</a></div>
+        <div class="row"><span class="mono">Địa chỉ</span><span class="val">B19-08, VCI Tower, Vĩnh Phúc, Phú Thọ</span></div>
+        <div class="row"><span class="mono">Giờ làm</span><span class="val">Thứ 2 – Thứ 7 · 08:00–17:30</span></div>
+      </div>
+
+      <div class="reveal">
+        <!-- ===================================================== -->
+        <!--  FORM LIÊN HỆ — chạy bằng Web3Forms (miễn phí)         -->
+        <!--  Thay YOUR_ACCESS_KEY_HERE bằng key của bạn.           -->
+        <!--  Lấy key tại: https://web3forms.com (nhập email, free) -->
+        <!--  Nên dùng email sales@vpaauto.com để nhận liên hệ.     -->
+        <!-- ===================================================== -->
+        <form id="contactForm">
+          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+          <input type="hidden" name="subject" value="Liên hệ mới từ website VPA Automation" />
+          <input type="hidden" name="from_name" value="VPA Automation Website" />
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="name">Họ và tên *</label>
+              <input id="name" type="text" name="name" required placeholder="Nguyễn Văn A" />
+            </div>
+            <div class="field">
+              <label for="company">Công ty</label>
+              <input id="company" type="text" name="company" placeholder="Tên công ty" />
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="email">Email *</label>
+              <input id="email" type="email" name="email" required placeholder="ban@congty.com" />
+            </div>
+            <div class="field">
+              <label for="phone">Điện thoại</label>
+              <input id="phone" type="tel" name="phone" placeholder="09xx xxx xxx" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">Nội dung *</label>
+            <textarea id="message" name="message" required placeholder="Mô tả nhu cầu tự động hóa hoặc câu hỏi của bạn..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitBtn">Gửi liên hệ →</button>
+          <p class="form-note">* Thông tin bắt buộc. Chúng tôi cam kết bảo mật thông tin của bạn.</p>
+          <div class="form-msg" id="formMsg"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <a href="#top" class="brand"><span class="dot"></span>VPA Automation</a>
+      <nav class="foot-links">
+        <a href="#about">Giới thiệu</a>
+        <a href="#services">Dịch vụ</a>
+        <a href="#stats">Năng lực</a>
+        <a href="#contact">Liên hệ</a>
+      </nav>
+    </div>
+    <div class="foot-bot">© <span id="year"></span> VPA Automation · B19-08, VCI Tower, Vĩnh Phúc, Phú Thọ · Mã số thuế: [0000000000]. Bảo lưu mọi quyền.</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const form = document.getElementById('contactForm');
+  const msg = document.getElementById('formMsg');
+  const btn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.className = 'form-msg';
+    btn.disabled = true;
+    const original = btn.textContent;
+    btn.textContent = 'Đang gửi...';
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      });
+      const data = await res.json();
+      if (data.success) {
+        msg.className = 'form-msg ok';
+        msg.textContent = 'Đã gửi thành công! Chúng tôi sẽ liên hệ lại sớm.';
+        form.reset();
+      } else {
+        msg.className = 'form-msg err';
+        msg.textContent = 'Gửi không thành công. Vui lòng kiểm tra lại hoặc liên hệ qua email sales@vpaauto.com.';
+      }
+    } catch (err) {
+      msg.className = 'form-msg err';
+      msg.textContent = 'Có lỗi kết nối. Vui lòng thử lại hoặc liên hệ qua email sales@vpaauto.com.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = original;
+    }
+  });
+</script>
+</body>
+</html>
